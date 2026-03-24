@@ -1,0 +1,29 @@
+SELECT *
+FROM churn_;
+
+-- Q1: Average monthly charges by contract type
+
+SELECT AVG(MonthlyCharges) AS avg_charges, Contract
+FROM churn_
+GROUP BY Contract
+ORDER BY avg_charges DESC;
+
+-- Q2: Churn Risk Percentage (Tenure < 12 Months) by Internet Service Type
+
+SELECT InternetService, 
+COUNT(CASE WHEN tenure < 12 THEN 1 END)/COUNT(*)*100.0 AS At_Risk_Count
+FROM churn_
+GROUP BY InternetService
+ORDER BY At_Risk_Count DESC;
+
+-- Q3: total customers by contract type
+
+SELECT COUNT(*) AS total_customers, Contract
+FROM churn_
+GROUP BY Contract;
+
+-- Q4: Payment Methods Generating the Highest Customer Revenue
+SELECT PaymentMethod, ROUND(SUM(TotalCharges),2) As total_rev
+FROM churn_
+GROUP BY PaymentMethod
+ORDER BY total_rev;
